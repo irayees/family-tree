@@ -27,14 +27,22 @@
       --ok-bg: #ecfdf5;
       --ok-text: #047857;
       --ok-border: #a7f3d0;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
       --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
       --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
       --radius: 10px;
       --zoom: 1;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
     }
 
     html, body {
@@ -47,6 +55,148 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Password Lock Screen */
+    #lockscreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at top, #eff6ff 0%, #f8fafc 65%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lock-card {
+      width: 100%;
+      max-width: 390px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 28px 26px 24px;
+      text-align: center;
+    }
+
+    .lock-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 14px;
+      border-radius: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+    }
+
+    .lock-card h1 {
+      margin: 0 0 6px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .lock-card p {
+      margin: 0 0 20px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .lock-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pw-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .pw-wrap input {
+      width: 100%;
+      padding: 10px 64px 10px 13px;
+      font-size: 0.95rem;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .pw-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-ring);
+    }
+
+    .pw-toggle {
+      position: absolute;
+      right: 8px;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .pw-toggle:hover {
+      background: var(--surface-alt);
+      color: var(--text);
+    }
+
+    .btn-primary {
+      appearance: none;
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .lock-err {
+      margin-top: 4px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .shake {
+      animation: shake 0.32s ease-in-out;
+    }
+
+    /* Main App Container */
     #app {
       display: flex;
       flex-direction: column;
@@ -54,6 +204,11 @@
       max-width: 100vw;
       padding: 14px 18px;
       overflow: hidden;
+    }
+
+    #app.dragover .treewrap {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-ring);
     }
 
     /* Header Bar */
@@ -211,6 +366,10 @@
       color: #1e40af;
       font-size: 0.84rem;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
 
     /* Main Layout */
@@ -656,11 +815,38 @@
   </style>
 </head>
 <body>
-<div id="app">
+
+<!-- Password Lock Overlay -->
+<div id="lockscreen" role="dialog" aria-modal="true" aria-labelledby="lock-title">
+  <div class="lock-card" id="lock-card">
+    <div class="lock-icon" aria-hidden="true">🔒</div>
+    <h1 id="lock-title">My Family Tree</h1>
+    <p>This family tree is password protected. Enter the password to view.</p>
+    <form class="lock-form" id="lock-form">
+      <div class="pw-wrap">
+        <input
+          id="pw-input"
+          type="password"
+          placeholder="Enter password"
+          aria-label="Password"
+          autocomplete="current-password"
+          required
+          autofocus
+        />
+        <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Show password">Show</button>
+      </div>
+      <button type="submit" class="btn-primary">Unlock Family Tree</button>
+      <div class="lock-err" id="lock-err" hidden>Incorrect password. Please try again.</div>
+    </form>
+  </div>
+</div>
+
+<!-- Main Family Tree App (Hidden until unlocked) -->
+<div id="app" hidden>
   <header class="bar">
     <div class="title">
       <h1>My Family Tree</h1>
-      <p class="stats" id="stats">140 people · 46 families · 5 generations</p>
+      <p class="stats" id="stats">Loading…</p>
     </div>
     <div class="tools">
       <span class="pill ok" id="status" role="status">View only</span>
@@ -676,19 +862,31 @@
         <button class="btn" data-act="expand">Expand</button>
         <button class="btn" data-act="collapse">Collapse</button>
       </div>
-      <button class="btn" data-act="export">Export GEDCOM</button>
+      <button class="btn" data-act="import" title="Preview or load a .ged file from your device">Load .ged</button>
+      <button class="btn" data-act="export" title="Download current GEDCOM file">Export GEDCOM</button>
+      <button class="btn" data-act="lock" title="Lock this page">🔒 Lock</button>
+      <input id="ged-file-input" type="file" accept=".ged,.txt" hidden />
     </div>
   </header>
   <p class="notice" id="notice" hidden=""></p>
   <p class="stats" style="margin:10px 0 0">Tap a <b>+number</b> badge to open a branch, or choose Expand to open them all. Tap anyone to see their relatives.</p>
   <div class="layout">
     <main class="treewrap" id="treewrap" aria-label="Family tree">
-      <div id="tree"><ul class="roots"><li class="node" data-node="I2"><div class="unit"><div class="couple"><button class="card m dead" data-act="pick" data-id="I2" aria-label="Jackaria Sait, deceased"><span class="dot"></span><span class="nm">Jackaria Sait<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f dead" data-act="pick" data-id="I3" aria-label="Isha Bai, deceased"><span class="dot"></span><span class="nm">Isha Bai<span class="dag"> †</span></span></button></div></div><button class="tog" data-act="tog" data-id="I2" aria-expanded="true" aria-label="Hide descendants of Jackaria Sait">−</button></div><ul class="kids"><li class="node" data-node="I1"><div class="unit"><div class="couple"><button class="card f dead" data-act="pick" data-id="I1" aria-label="Rukiya Bai, deceased"><span class="dot"></span><span class="nm">Rukiya Bai<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel ended" title="Marriage ended">m.</span><button class="card m dead ref" data-act="pick" data-id="I6" aria-label="A Shamsuddin Sait, deceased"><span class="dot"></span><span class="nm">A Shamsuddin Sait<span class="dag"> †</span><small>also m. Rabia Shamsuddin</small></span></button></div></div><button class="tog" data-act="tog" data-id="I1" aria-expanded="true" aria-label="Hide descendants of Rukiya Bai">−</button></div><ul class="kids"><li class="node" data-node="I7"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I7" aria-label="Muhammed Rafique"><span class="dot"></span><span class="nm">Muhammed Rafique</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I30" aria-label="Fathima Suharabi"><span class="dot"></span><span class="nm">Fathima Suharabi</span></button></div></div><button class="tog" data-act="tog" data-id="I7" aria-expanded="true" aria-label="Hide descendants of Muhammed Rafique">−</button></div><ul class="kids"><li class="node" data-node="I60"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I60" aria-label="Shifan Rafique"><span class="dot"></span><span class="nm">Shifan Rafique</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I84" aria-label="Shafna"><span class="dot"></span><span class="nm">Shafna</span></button></div></div><button class="tog" data-act="tog" data-id="I60" aria-expanded="true" aria-label="Hide descendants of Shifan Rafique">−</button></div><ul class="kids"><li class="node" data-node="I85"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I85" aria-label="Ishan Zayed"><span class="dot"></span><span class="nm">Ishan Zayed</span></button></div></div></li><li class="node" data-node="I86"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I86" aria-label="Zinan Zayed"><span class="dot"></span><span class="nm">Zinan Zayed</span></button></div></div></li></ul></li><li class="node" data-node="I61"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I61" aria-label="Rifan Rafique"><span class="dot"></span><span class="nm">Rifan Rafique</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I87" aria-label="Hiba"><span class="dot"></span><span class="nm">Hiba</span></button></div></div><button class="tog" data-act="tog" data-id="I61" aria-expanded="true" aria-label="Hide descendants of Rifan Rafique">−</button></div><ul class="kids"><li class="node" data-node="I88"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I88" aria-label="Zahan"><span class="dot"></span><span class="nm">Zahan</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I8"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I8" aria-label="Shakeela Sait"><span class="dot"></span><span class="nm">Shakeela Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I25" aria-label="Iqbal Zackaria"><span class="dot"></span><span class="nm">Iqbal Zackaria</span></button></div></div><button class="tog" data-act="tog" data-id="I8" aria-expanded="true" aria-label="Hide descendants of Shakeela Sait">−</button></div><ul class="kids"><li class="node" data-node="I62"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I62" aria-label="Aysha Bai"><span class="dot"></span><span class="nm">Aysha Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I95" aria-label="Nishaan"><span class="dot"></span><span class="nm">Nishaan</span></button></div></div></div></li></ul></li><li class="node" data-node="I23"><div class="unit"><div class="couple"><button class="card m dead" data-act="pick" data-id="I23" aria-label="Abdul Azeez Sait, deceased"><span class="dot"></span><span class="nm">Abdul Azeez Sait<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I26" aria-label="Noorjahan Bai"><span class="dot"></span><span class="nm">Noorjahan Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I23" aria-expanded="true" aria-label="Hide descendants of Abdul Azeez Sait">−</button></div><ul class="kids"><li class="node" data-node="I63"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I63" aria-label="Muneera Bai"><span class="dot"></span><span class="nm">Muneera Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I89" aria-label="Nadeem"><span class="dot"></span><span class="nm">Nadeem</span></button></div></div><button class="tog" data-act="tog" data-id="I63" aria-expanded="true" aria-label="Hide descendants of Muneera Bai">−</button></div><ul class="kids"><li class="node" data-node="I90"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I90" aria-label="Nuzha"><span class="dot"></span><span class="nm">Nuzha</span></button></div></div></li><li class="node" data-node="I91"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I91" aria-label="Faraas"><span class="dot"></span><span class="nm">Faraas</span></button></div></div></li><li class="node" data-node="I92"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I92" aria-label="Numa"><span class="dot"></span><span class="nm">Numa</span></button></div></div></li></ul></li><li class="node" data-node="I64"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I64" aria-label="Anees Sait"><span class="dot"></span><span class="nm">Anees Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I93" aria-label="Tabassum"><span class="dot"></span><span class="nm">Tabassum</span></button></div></div><button class="tog" data-act="tog" data-id="I64" aria-expanded="true" aria-label="Hide descendants of Anees Sait">−</button></div><ul class="kids"><li class="node" data-node="I94"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I94" aria-label="Farheen"><span class="dot"></span><span class="nm">Farheen</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I24"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I24" aria-label="Roshan Bai"><span class="dot"></span><span class="nm">Roshan Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m dead" data-act="pick" data-id="I27" aria-label="Kurshid Sait, deceased"><span class="dot"></span><span class="nm">Kurshid Sait<span class="dag"> †</span></span></button></div></div><button class="tog" data-act="tog" data-id="I24" aria-expanded="true" aria-label="Hide descendants of Roshan Bai">−</button></div><ul class="kids"><li class="node" data-node="I28"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I28" aria-label="Naveed Sait"><span class="dot"></span><span class="nm">Naveed Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I96" aria-label="Parveen"><span class="dot"></span><span class="nm">Parveen</span></button></div></div><button class="tog" data-act="tog" data-id="I28" aria-expanded="true" aria-label="Hide descendants of Naveed Sait">−</button></div><ul class="kids"><li class="node" data-node="Inmvq4c6r3cv"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="Inmvq4c6r3cv" aria-label="Sahil Sait"><span class="dot"></span><span class="nm">Sahil Sait</span></button></div></div></li></ul></li><li class="node" data-node="I29"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I29" aria-label="Nayab Sait"><span class="dot"></span><span class="nm">Nayab Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I31" aria-label="Neena"><span class="dot"></span><span class="nm">Neena</span></button></div></div></div></li></ul></li></ul></li><li class="node" data-node="I4"><div class="unit"><div class="couple"><button class="card f dead" data-act="pick" data-id="I4" aria-label="Amina Bai, deceased"><span class="dot"></span><span class="nm">Amina Bai<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m dead" data-act="pick" data-id="I53" aria-label="Ramju Sait, deceased"><span class="dot"></span><span class="nm">Ramju Sait<span class="dag"> †</span></span></button></div></div></div></li><li class="node" data-node="I5"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I5" aria-label="Sharifa Bai"><span class="dot"></span><span class="nm">Sharifa Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m dead" data-act="pick" data-id="I54" aria-label="Usman Kareem, deceased"><span class="dot"></span><span class="nm">Usman Kareem<span class="dag"> †</span></span></button></div></div><button class="tog" data-act="tog" data-id="I5" aria-expanded="true" aria-label="Hide descendants of Sharifa Bai">−</button></div><ul class="kids"><li class="node" data-node="I55"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I55" aria-label="Noormohammed Kareem"><span class="dot"></span><span class="nm">Noormohammed Kareem</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f ref" data-act="pick" data-id="I117" aria-label="Shireen"><span class="dot"></span><span class="nm">Shireen</span></button></div></div><button class="tog" data-act="tog" data-id="I55" aria-expanded="true" aria-label="Hide descendants of Noormohammed Kareem">−</button></div><ul class="kids"><li class="node" data-node="I118"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I118" aria-label="Asif"><span class="dot"></span><span class="nm">Asif</span></button></div></div></li><li class="node" data-node="I119"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I119" aria-label="Arif (Advocate)"><span class="dot"></span><span class="nm">Arif (Advocate)</span></button></div></div></li></ul></li><li class="node" data-node="I56"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I56" aria-label="Basheer Ahmed"><span class="dot"></span><span class="nm">Basheer Ahmed</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I120" aria-label="Nusarath"><span class="dot"></span><span class="nm">Nusarath</span></button></div></div><button class="tog" data-act="tog" data-id="I56" aria-expanded="true" aria-label="Hide descendants of Basheer Ahmed">−</button></div><ul class="kids"><li class="node" data-node="I121"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I121" aria-label="Yasmeen"><span class="dot"></span><span class="nm">Yasmeen</span></button></div></div></li><li class="node" data-node="I122"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I122" aria-label="Ruksana"><span class="dot"></span><span class="nm">Ruksana</span></button></div></div></li><li class="node" data-node="I123"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I123" aria-label="Rehab"><span class="dot"></span><span class="nm">Rehab</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I9"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I9" aria-label="Mariam Bai"><span class="dot"></span><span class="nm">Mariam Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I48" aria-label="Abdul Razack"><span class="dot"></span><span class="nm">Abdul Razack</span></button></div></div><button class="tog" data-act="tog" data-id="I9" aria-expanded="true" aria-label="Hide descendants of Mariam Bai">−</button></div><ul class="kids"><li class="node" data-node="I49"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I49" aria-label="Bilkis"><span class="dot"></span><span class="nm">Bilkis</span></button><div class="srow"><span class="mlabel ended" title="Marriage ended">m.</span><button class="card m" data-act="pick" data-id="I106" aria-label="Noushad"><span class="dot"></span><span class="nm">Noushad</span></button></div></div><button class="tog" data-act="tog" data-id="I49" aria-expanded="true" aria-label="Hide descendants of Bilkis">−</button></div><ul class="kids"><li class="node" data-node="I107"><div class="unit"><div class="couple"><button class="card f dead" data-act="pick" data-id="I107" aria-label="Shazia, deceased"><span class="dot"></span><span class="nm">Shazia<span class="dag"> †</span></span></button></div></div></li><li class="node" data-node="I108"><div class="unit"><div class="couple"><button class="card m dead" data-act="pick" data-id="I108" aria-label="Ahmed, deceased"><span class="dot"></span><span class="nm">Ahmed<span class="dag"> †</span></span></button></div></div></li></ul></li><li class="node" data-node="I50"><div class="unit"><div class="couple"><button class="card f dead" data-act="pick" data-id="I50" aria-label="Rayeesa Moloo, deceased"><span class="dot"></span><span class="nm">Rayeesa Moloo<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I109" aria-label="Ahamed"><span class="dot"></span><span class="nm">Ahamed</span></button></div></div><button class="tog" data-act="tog" data-id="I50" aria-expanded="true" aria-label="Hide descendants of Rayeesa Moloo">−</button></div><ul class="kids"><li class="node" data-node="I110"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I110" aria-label="Inam Qureshi"><span class="dot"></span><span class="nm">Inam Qureshi</span></button></div></div></li><li class="node" data-node="I111"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I111" aria-label="Hiba Qureshi"><span class="dot"></span><span class="nm">Hiba Qureshi</span></button></div></div></li><li class="node" data-node="I112"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I112" aria-label="Sara Qureshi"><span class="dot"></span><span class="nm">Sara Qureshi</span></button></div></div></li></ul></li><li class="node" data-node="I51"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I51" aria-label="Sakeena"><span class="dot"></span><span class="nm">Sakeena</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I113" aria-label="Obeid"><span class="dot"></span><span class="nm">Obeid</span></button></div></div><button class="tog" data-act="tog" data-id="I51" aria-expanded="true" aria-label="Hide descendants of Sakeena">−</button></div><ul class="kids"><li class="node" data-node="I114"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I114" aria-label="Imran"><span class="dot"></span><span class="nm">Imran</span></button></div></div></li><li class="node" data-node="I115"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I115" aria-label="Emaan"><span class="dot"></span><span class="nm">Emaan</span></button></div></div></li><li class="node" data-node="I116"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I116" aria-label="Ahmed"><span class="dot"></span><span class="nm">Ahmed</span></button></div></div></li></ul></li><li class="node" data-node="I52"><div class="unit"><div class="couple"><button class="card f dead" data-act="pick" data-id="I52" aria-label="Rehana, deceased"><span class="dot"></span><span class="nm">Rehana<span class="dag"> †</span></span></button></div></div></li></ul></li><li class="node" data-node="I10"><div class="unit"><div class="couple"><button class="card m dead" data-act="pick" data-id="I10" aria-label="Jaan Mohammed (Raja), deceased"><span class="dot"></span><span class="nm">Jaan Mohammed (Raja)<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f dead" data-act="pick" data-id="I41" aria-label="Khadeeja Bai, deceased"><span class="dot"></span><span class="nm">Khadeeja Bai<span class="dag"> †</span></span></button></div></div><button class="tog" data-act="tog" data-id="I10" aria-expanded="true" aria-label="Hide descendants of Jaan Mohammed (Raja)">−</button></div><ul class="kids"><li class="node" data-node="I42"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I42" aria-label="Noushad Sait"><span class="dot"></span><span class="nm">Noushad Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I65" aria-label="Sabira Bai"><span class="dot"></span><span class="nm">Sabira Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I42" aria-expanded="true" aria-label="Hide descendants of Noushad Sait">−</button></div><ul class="kids"><li class="node" data-node="I66"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I66" aria-label="Zeeshan Sait"><span class="dot"></span><span class="nm">Zeeshan Sait</span></button></div></div></li><li class="node" data-node="I67"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I67" aria-label="Adil Sait"><span class="dot"></span><span class="nm">Adil Sait</span></button></div></div></li></ul></li><li class="node" data-node="I43"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I43" aria-label="Nahida Bai"><span class="dot"></span><span class="nm">Nahida Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I68" aria-label="Saju Sait"><span class="dot"></span><span class="nm">Saju Sait</span></button></div></div><button class="tog" data-act="tog" data-id="I43" aria-expanded="true" aria-label="Hide descendants of Nahida Bai">−</button></div><ul class="kids"><li class="node" data-node="I69"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I69" aria-label="Farisa Bai"><span class="dot"></span><span class="nm">Farisa Bai</span></button></div></div></li><li class="node" data-node="I70"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I70" aria-label="Favas Sait"><span class="dot"></span><span class="nm">Favas Sait</span></button></div></div></li></ul></li><li class="node" data-node="I44"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I44" aria-label="Nazira Bai"><span class="dot"></span><span class="nm">Nazira Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I71" aria-label="Shakoor Sait"><span class="dot"></span><span class="nm">Shakoor Sait</span></button></div></div><button class="tog" data-act="tog" data-id="I44" aria-expanded="true" aria-label="Hide descendants of Nazira Bai">−</button></div><ul class="kids"><li class="node" data-node="I72"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I72" aria-label="Selma Bai"><span class="dot"></span><span class="nm">Selma Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m ref" data-act="pick" data-id="I82" aria-label="Yaqoob Ismail"><span class="dot"></span><span class="nm">Yaqoob Ismail</span></button></div></div></div></li></ul></li><li class="node" data-node="I45"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I45" aria-label="Nisthar Sait"><span class="dot"></span><span class="nm">Nisthar Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I73" aria-label="Reshma Bai"><span class="dot"></span><span class="nm">Reshma Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I45" aria-expanded="true" aria-label="Hide descendants of Nisthar Sait">−</button></div><ul class="kids"><li class="node" data-node="I74"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I74" aria-label="Nizaara Bai"><span class="dot"></span><span class="nm">Nizaara Bai</span></button></div></div></li><li class="node" data-node="I75"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I75" aria-label="Aqif Sait"><span class="dot"></span><span class="nm">Aqif Sait</span></button></div></div></li></ul></li><li class="node" data-node="I46"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I46" aria-label="Nazreen Bai"><span class="dot"></span><span class="nm">Nazreen Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I76" aria-label="Nisthar Sait"><span class="dot"></span><span class="nm">Nisthar Sait</span></button></div></div><button class="tog" data-act="tog" data-id="I46" aria-expanded="true" aria-label="Hide descendants of Nazreen Bai">−</button></div><ul class="kids"><li class="node" data-node="I77"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I77" aria-label="Noufal Sait"><span class="dot"></span><span class="nm">Noufal Sait</span></button></div></div></li><li class="node" data-node="I78"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I78" aria-label="Nihal Sait"><span class="dot"></span><span class="nm">Nihal Sait</span></button></div></div></li><li class="node" data-node="I79"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I79" aria-label="Jan Muhammad"><span class="dot"></span><span class="nm">Jan Muhammad</span></button></div></div></li></ul></li><li class="node" data-node="I47"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I47" aria-label="Nageena Bai"><span class="dot"></span><span class="nm">Nageena Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I80" aria-label="Ismail Sait (Shafiq)"><span class="dot"></span><span class="nm">Ismail Sait (Shafiq)</span></button></div></div><button class="tog" data-act="tog" data-id="I47" aria-expanded="true" aria-label="Hide descendants of Nageena Bai">−</button></div><ul class="kids"><li class="node" data-node="I81"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I81" aria-label="Farah Bai"><span class="dot"></span><span class="nm">Farah Bai</span></button></div></div></li><li class="node" data-node="I82"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I82" aria-label="Yaqoob Ismail"><span class="dot"></span><span class="nm">Yaqoob Ismail</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f ref" data-act="pick" data-id="I72" aria-label="Selma Bai"><span class="dot"></span><span class="nm">Selma Bai</span></button></div></div></div></li><li class="node" data-node="I83"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I83" aria-label="Mohsin Ismail"><span class="dot"></span><span class="nm">Mohsin Ismail</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I11"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I11" aria-label="AbdulGafoor Sait"><span class="dot"></span><span class="nm">AbdulGafoor Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I57" aria-label="Shahina Bai"><span class="dot"></span><span class="nm">Shahina Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I11" aria-expanded="true" aria-label="Hide descendants of AbdulGafoor Sait">−</button></div><ul class="kids"><li class="node" data-node="I58"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I58" aria-label="Nazish Sait"><span class="dot"></span><span class="nm">Nazish Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="Inmvq59szgkf" aria-label="Abeer Abdu Gaffaar"><span class="dot"></span><span class="nm">Abeer Abdu Gaffaar</span></button></div></div><button class="tog" data-act="tog" data-id="I58" aria-expanded="true" aria-label="Hide descendants of Nazish Sait">−</button></div><ul class="kids"><li class="node" data-node="Inmvq5a8xy9j"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="Inmvq5a8xy9j" aria-label="Aymann Mohamed Nazish"><span class="dot"></span><span class="nm">Aymann Mohamed Nazish</span></button></div></div></li><li class="node" data-node="Inmvq5eemurs"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="Inmvq5eemurs" aria-label="Yusuf Mohamed Nazish"><span class="dot"></span><span class="nm">Yusuf Mohamed Nazish</span></button></div></div></li><li class="node" data-node="Inmvq5f8mxnn"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="Inmvq5f8mxnn" aria-label="Asma Mohamed Nazish"><span class="dot"></span><span class="nm">Asma Mohamed Nazish</span></button></div></div></li></ul></li><li class="node" data-node="I59"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I59" aria-label="Zaheer Sait"><span class="dot"></span><span class="nm">Zaheer Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="Inmvq53buej3" aria-label="Sana Ameen"><span class="dot"></span><span class="nm">Sana Ameen</span></button></div></div><button class="tog" data-act="tog" data-id="I59" aria-expanded="true" aria-label="Hide descendants of Zaheer Sait">−</button></div><ul class="kids"><li class="node" data-node="Inmvq53zlwqo"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="Inmvq53zlwqo" aria-label="Ayesha Mohamed Zaheer"><span class="dot"></span><span class="nm">Ayesha Mohamed Zaheer</span></button></div></div></li><li class="node" data-node="Inmvq54yylv8"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="Inmvq54yylv8" aria-label="Hamdan Mohamed Zaheer"><span class="dot"></span><span class="nm">Hamdan Mohamed Zaheer</span></button></div></div></li><li class="node" data-node="Inmvq5d5ko1q"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="Inmvq5d5ko1q" aria-label="Noorah Mohamed Zaheer"><span class="dot"></span><span class="nm">Noorah Mohamed Zaheer</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I12"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I12" aria-label="Rabia Shamsuddin"><span class="dot"></span><span class="nm">Rabia Shamsuddin</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m dead ref" data-act="pick" data-id="I6" aria-label="A Shamsuddin Sait, deceased"><span class="dot"></span><span class="nm">A Shamsuddin Sait<span class="dag"> †</span><small>also m. Rukiya Bai</small></span></button></div></div><button class="tog" data-act="tog" data-id="I12" aria-expanded="true" aria-label="Hide descendants of Rabia Shamsuddin">−</button></div><ul class="kids"><li class="node" data-node="I13"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I13" aria-label="Rayees Shamsuddin"><span class="dot"></span><span class="nm">Rayees Shamsuddin</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f ref" data-act="pick" data-id="I15" aria-label="Aaliya Bai"><span class="dot"></span><span class="nm">Aaliya Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I13" aria-expanded="true" aria-label="Hide descendants of Rayees Shamsuddin">−</button></div><ul class="kids"><li class="node" data-node="I16"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I16" aria-label="Abdullah Rayees"><span class="dot"></span><span class="nm">Abdullah Rayees</span></button></div></div></li><li class="node" data-node="I17"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I17" aria-label="Ibrahim Rayees"><span class="dot"></span><span class="nm">Ibrahim Rayees</span></button></div></div></li><li class="node" data-node="I18"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I18" aria-label="Muhammad Rayees"><span class="dot"></span><span class="nm">Muhammad Rayees</span></button></div></div></li></ul></li><li class="node" data-node="I14"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I14" aria-label="Mohamed Shafik Shamsuddin"><span class="dot"></span><span class="nm">Mohamed Shafik Shamsuddin</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I19" aria-label="Athiya Gafoor"><span class="dot"></span><span class="nm">Athiya Gafoor</span></button></div></div><button class="tog" data-act="tog" data-id="I14" aria-expanded="true" aria-label="Hide descendants of Mohamed Shafik Shamsuddin">−</button></div><ul class="kids"><li class="node" data-node="I20"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I20" aria-label="Sameeha Shafik"><span class="dot"></span><span class="nm">Sameeha Shafik</span></button></div></div></li><li class="node" data-node="I21"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I21" aria-label="Talha Shafik"><span class="dot"></span><span class="nm">Talha Shafik</span></button></div></div></li><li class="node" data-node="I22"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I22" aria-label="Aisha Shafik"><span class="dot"></span><span class="nm">Aisha Shafik</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I32"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I32" aria-label="Kassim Memon"><span class="dot"></span><span class="nm">Kassim Memon</span></button><div class="srow"><span class="mlabel ended" title="Marriage ended">m.</span><button class="card f" data-act="pick" data-id="I35" aria-label="Noorjahan Bai"><span class="dot"></span><span class="nm">Noorjahan Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I32" aria-expanded="true" aria-label="Hide descendants of Kassim Memon">−</button></div><ul class="kids"><li class="node" data-node="I34"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I34" aria-label="Reshma Kassim"><span class="dot"></span><span class="nm">Reshma Kassim</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m" data-act="pick" data-id="I100" aria-label="Ilyas"><span class="dot"></span><span class="nm">Ilyas</span></button></div></div><button class="tog" data-act="tog" data-id="I34" aria-expanded="true" aria-label="Hide descendants of Reshma Kassim">−</button></div><ul class="kids"><li class="node" data-node="I101"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I101" aria-label="Ameer"><span class="dot"></span><span class="nm">Ameer</span></button></div></div></li><li class="node" data-node="I102"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I102" aria-label="Sara"><span class="dot"></span><span class="nm">Sara</span></button></div></div></li><li class="node" data-node="I103"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I103" aria-label="Ahmed"><span class="dot"></span><span class="nm">Ahmed</span></button></div></div></li></ul></li><li class="node" data-node="I36"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I36" aria-label="Shifaz Kassim"><span class="dot"></span><span class="nm">Shifaz Kassim</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I104" aria-label="Shabana"><span class="dot"></span><span class="nm">Shabana</span></button></div></div><button class="tog" data-act="tog" data-id="I36" aria-expanded="true" aria-label="Hide descendants of Shifaz Kassim">−</button></div><ul class="kids"><li class="node" data-node="I105"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I105" aria-label="Zayd"><span class="dot"></span><span class="nm">Zayd</span></button></div></div></li></ul></li></ul></li><li class="node" data-node="I33"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I33" aria-label="Saibunisa Bai"><span class="dot"></span><span class="nm">Saibunisa Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m dead" data-act="pick" data-id="I37" aria-label="AbdulLatheef (Abad) Sait, deceased"><span class="dot"></span><span class="nm">AbdulLatheef (Abad) Sait<span class="dag"> †</span></span></button></div></div><button class="tog" data-act="tog" data-id="I33" aria-expanded="true" aria-label="Hide descendants of Saibunisa Bai">−</button></div><ul class="kids"><li class="node" data-node="I38"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I38" aria-label="Althaf Sait"><span class="dot"></span><span class="nm">Althaf Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I40" aria-label="Sajna Bai"><span class="dot"></span><span class="nm">Sajna Bai</span></button></div></div><button class="tog" data-act="tog" data-id="I38" aria-expanded="true" aria-label="Hide descendants of Althaf Sait">−</button></div><ul class="kids"><li class="node" data-node="I98"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I98" aria-label="Asma Bai"><span class="dot"></span><span class="nm">Asma Bai</span></button></div></div></li><li class="node" data-node="I99"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I99" aria-label="Aasiya Bai"><span class="dot"></span><span class="nm">Aasiya Bai</span></button></div></div></li></ul></li><li class="node" data-node="I39"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="I39" aria-label="Arafath Sait"><span class="dot"></span><span class="nm">Arafath Sait</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f" data-act="pick" data-id="I97" aria-label="Sara"><span class="dot"></span><span class="nm">Sara</span></button></div></div><button class="tog" data-act="tog" data-id="I39" aria-expanded="true" aria-label="Hide descendants of Arafath Sait">−</button></div><ul class="kids"><li class="node" data-node="I124"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I124" aria-label="Safa"><span class="dot"></span><span class="nm">Safa</span></button></div></div></li><li class="node" data-node="I125"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I125" aria-label="Shifa"><span class="dot"></span><span class="nm">Shifa</span></button></div></div></li><li class="node" data-node="I126"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I126" aria-label="Maryam"><span class="dot"></span><span class="nm">Maryam</span></button></div></div></li></ul></li></ul></li></ul></li><li class="node" data-node="I127"><div class="unit"><div class="couple"><button class="card m dead" data-act="pick" data-id="I127" aria-label="AbdulLatheef Sait, deceased"><span class="dot"></span><span class="nm">AbdulLatheef Sait<span class="dag"> †</span></span></button></div><button class="tog" data-act="tog" data-id="I127" aria-expanded="true" aria-label="Hide descendants of AbdulLatheef Sait">−</button></div><ul class="kids"><li class="node" data-node="I6"><div class="unit"><div class="couple"><button class="card m dead" data-act="pick" data-id="I6" aria-label="A Shamsuddin Sait, deceased"><span class="dot"></span><span class="nm">A Shamsuddin Sait<span class="dag"> †</span></span></button><div class="srow"><span class="mlabel ended" title="Marriage ended">m.</span><button class="card f dead ref" data-act="pick" data-id="I1" aria-label="Rukiya Bai, deceased"><span class="dot"></span><span class="nm">Rukiya Bai<span class="dag"> †</span></span></button></div><div class="note">Children are listed under Rukiya Bai</div><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card f ref" data-act="pick" data-id="I12" aria-label="Rabia Shamsuddin"><span class="dot"></span><span class="nm">Rabia Shamsuddin</span></button></div><div class="note">Children are listed under Rabia Shamsuddin</div></div></div></li></ul></li><li class="node" data-node="Inmvq38n61v9"><div class="unit"><div class="couple"><button class="card m" data-act="pick" data-id="Inmvq38n61v9" aria-label="Nowfel Sait"><span class="dot"></span><span class="nm">Nowfel Sait</span></button></div><button class="tog" data-act="tog" data-id="Inmvq38n61v9" aria-expanded="true" aria-label="Hide descendants of Nowfel Sait">−</button></div><ul class="kids"><li class="node" data-node="I15"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I15" aria-label="Aaliya Bai"><span class="dot"></span><span class="nm">Aaliya Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m ref" data-act="pick" data-id="I13" aria-label="Rayees Shamsuddin"><span class="dot"></span><span class="nm">Rayees Shamsuddin</span></button></div><div class="note">Children are listed under Rayees Shamsuddin</div></div></div></li></ul></li><li class="node" data-node="Inmvq3r0xoxx"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="Inmvq3r0xoxx" aria-label="Rabia Bai"><span class="dot"></span><span class="nm">Rabia Bai</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m dead" data-act="pick" data-id="Inmvq3shrjls" aria-label="Abdul Azeez Sait, deceased"><span class="dot"></span><span class="nm">Abdul Azeez Sait<span class="dag"> †</span></span></button></div></div><button class="tog" data-act="tog" data-id="Inmvq3r0xoxx" aria-expanded="true" aria-label="Hide descendants of Rabia Bai">−</button></div><ul class="kids"><li class="node" data-node="I117"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="I117" aria-label="Shireen"><span class="dot"></span><span class="nm">Shireen</span></button><div class="srow"><span class="mlabel" title="Married">m.</span><button class="card m ref" data-act="pick" data-id="I55" aria-label="Noormohammed Kareem"><span class="dot"></span><span class="nm">Noormohammed Kareem</span></button></div><div class="note">Children are listed under Noormohammed Kareem</div></div></div></li></ul></li><li class="node" data-node="Inmvq5aya3qv"><div class="unit"><div class="couple"><button class="card f" data-act="pick" data-id="Inmvq5aya3qv" aria-label="Asma Mohamed Nazish"><span class="dot"></span><span class="nm">Asma Mohamed Nazish</span></button></div></div></li></ul></div>
+      <div id="tree"></div>
     </main>
     <aside class="panel idle" id="panel" aria-live="polite"></aside>
   </div>
 </div>
 
+<!--
+  ======================================================================
+  HOW TO UPDATE YOUR FAMILY TREE ON GITHUB:
+  Option 1 (Easiest): Upload a file named "family.ged" (or "my-family-tree.ged")
+    to the same GitHub repository folder as index.html. The page will
+    automatically load that file whenever it is present!
+  Option 2: Replace the GEDCOM text inside <script id="gedcom-data"> below.
+  ======================================================================
+-->
 <script id="gedcom-data" type="text/plain">
 0 HEAD
 1 SOUR My Family Tree
@@ -1866,12 +2064,71 @@
 
 <script>
 (() => {
-  const gedcomText = document.getElementById('gedcom-data').textContent.trim();
+  // Password verification config (SHA-256 of "memon1")
+  const EXPECTED_HASH = '1b136dc04728b2d011828c4858b2773c070a231b24f4ea5be4279985f491b244';
+  const SESSION_KEY = 'ft_unlocked_v1';
 
-  // Parse GEDCOM into individuals and families maps
+  // External GEDCOM filenames checked automatically on GitHub Pages (in priority order)
+  const EXTERNAL_GED_FILES = [
+    'family.ged',
+    'my-family-tree.ged',
+    'my-family-tree-gedcom.ged',
+    'my-family-tree-gedcom.ged.txt'
+  ];
+
+  const lockscreenEl = document.getElementById('lockscreen');
+  const lockCardEl = document.getElementById('lock-card');
+  const lockFormEl = document.getElementById('lock-form');
+  const pwInputEl = document.getElementById('pw-input');
+  const pwToggleEl = document.getElementById('pw-toggle');
+  const lockErrEl = document.getElementById('lock-err');
+
+  const appEl = document.getElementById('app');
+  const statsEl = document.getElementById('stats');
+  const noticeEl = document.getElementById('notice');
+  const treeEl = document.getElementById('tree');
+  const treewrap = document.getElementById('treewrap');
+  const panelEl = document.getElementById('panel');
+  const searchInput = document.getElementById('q');
+  const countEl = document.getElementById('count');
+  const fileInputEl = document.getElementById('ged-file-input');
+
+  let gedcomText = document.getElementById('gedcom-data').textContent.trim();
+  let indis = new Map();
+  let fams = new Map();
+  let zoom = 1;
+  let selectedId = null;
+  let searchMatches = [];
+  let searchIdx = 0;
+  let locCycleIdx = 0;
+  let isInitialized = false;
+
+  // Compute SHA-256 hex digest (with fallback if Web Crypto is unavailable on file://)
+  async function verifyPassword(input) {
+    const cleaned = input.trim();
+    if (window.crypto && window.crypto.subtle) {
+      const buf = new TextEncoder().encode(cleaned);
+      const hashBuf = await window.crypto.subtle.digest('SHA-256', buf);
+      const hex = Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+      return hex === EXPECTED_HASH;
+    }
+    return cleaned === 'memon1';
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Parse GEDCOM 5.5.1 text into `indis` and `fams` Maps
   function parseGedcom(text) {
-    const indis = new Map();
-    const fams = new Map();
+    const parsedIndis = new Map();
+    const parsedFams = new Map();
     let current = null;
     let currentType = null;
     let subTag = null;
@@ -1903,7 +2160,7 @@
             fams: [],
             famc: []
           };
-          indis.set(xref, current);
+          parsedIndis.set(xref, current);
         } else if (tag === 'FAM' && xref) {
           currentType = 'FAM';
           current = {
@@ -1913,7 +2170,7 @@
             chil: [],
             current: true
           };
-          fams.set(xref, current);
+          parsedFams.set(xref, current);
         } else {
           current = null;
           currentType = null;
@@ -1955,23 +2212,170 @@
         }
       }
     }
-    return { indis, fams };
+    return { indis: parsedIndis, fams: parsedFams };
   }
 
-  const { indis, fams } = parseGedcom(gedcomText);
+  // Dynamically build the entire <ul class="roots">...</ul> HTML from parsed GEDCOM
+  function buildTreeFromGedcom(indisMap, famsMap) {
+    const hasParentFam = new Set();
+    for (const fam of famsMap.values()) {
+      if (fam.husb || fam.wife) {
+        for (const cid of fam.chil) {
+          if (indisMap.has(cid)) hasParentFam.add(cid);
+        }
+      }
+    }
 
-  const treeEl = document.getElementById('tree');
-  const treewrap = document.getElementById('treewrap');
-  const panelEl = document.getElementById('panel');
-  const searchInput = document.getElementById('q');
-  const countEl = document.getElementById('count');
+    const rootIds = [];
+    const attachedRootSpouses = new Set();
 
-  let zoom = 1;
-  let selectedId = null;
-  let searchMatches = [];
-  let searchIdx = 0;
+    for (const [iid, p] of indisMap.entries()) {
+      if (hasParentFam.has(iid) || attachedRootSpouses.has(iid)) continue;
+      const spouses = [];
+      for (const fid of p.fams) {
+        const fam = famsMap.get(fid);
+        if (!fam) continue;
+        const sp = fam.husb === iid ? fam.wife : fam.husb;
+        if (sp) spouses.push(sp);
+      }
+      if (spouses.some(sp => hasParentFam.has(sp) || rootIds.includes(sp))) {
+        continue;
+      }
+      rootIds.push(iid);
+      spouses.forEach(sp => attachedRootSpouses.add(sp));
+    }
 
-  // Count how many descendant people/nodes are inside a node's ul.kids
+    const primaryNodes = new Set([...rootIds, ...hasParentFam]);
+    const expandedFams = new Map();
+    let maxGenDepth = 0;
+
+    function renderPersonButton(iid, isRef = false, extraSmall = '') {
+      const p = indisMap.get(iid);
+      if (!p) return '';
+      const classes = ['card'];
+      if (p.sex === 'M') classes.push('m');
+      else if (p.sex === 'F') classes.push('f');
+      if (p.dead) classes.push('dead');
+      if (isRef) classes.push('ref');
+
+      const aria = p.dead ? `${p.name}, deceased` : p.name;
+      const dag = p.dead ? '<span class="dag"> †</span>' : '';
+      const small = extraSmall ? `<small>${escapeHtml(extraSmall)}</small>` : '';
+      return `<button class="${classes.join(' ')}" data-act="pick" data-id="${escapeHtml(iid)}" aria-label="${escapeHtml(aria)}"><span class="dot"></span><span class="nm">${escapeHtml(p.name)}${dag}${small}</span></button>`;
+    }
+
+    function renderNode(iid, depth) {
+      if (depth > maxGenDepth) maxGenDepth = depth;
+      const p = indisMap.get(iid);
+      if (!p) return '';
+
+      const coupleParts = [renderPersonButton(iid, false)];
+      const kidsToRender = [];
+
+      for (const fid of p.fams) {
+        const fam = famsMap.get(fid);
+        if (!fam) continue;
+        const spId = fam.husb === iid ? fam.wife : fam.husb;
+        if (spId && indisMap.has(spId)) {
+          const sp = indisMap.get(spId);
+          const ended = !fam.current;
+          const mlabelCls = ended ? 'mlabel ended' : 'mlabel';
+          const mlabelTitle = ended ? 'Marriage ended' : 'Married';
+          const isRef = primaryNodes.has(spId);
+
+          const otherSpouses = [];
+          for (const spFid of sp.fams) {
+            if (spFid !== fid && famsMap.has(spFid)) {
+              const spFam = famsMap.get(spFid);
+              const osp = spFam.husb === spId ? spFam.wife : spFam.husb;
+              if (osp && indisMap.has(osp)) {
+                otherSpouses.push(indisMap.get(osp).name);
+              }
+            }
+          }
+          const extraSmall = otherSpouses.length ? `also m. ${otherSpouses.join(', ')}` : '';
+          const spBtn = renderPersonButton(spId, isRef, extraSmall);
+          coupleParts.push(`<div class="srow"><span class="${mlabelCls}" title="${mlabelTitle}">m.</span>${spBtn}</div>`);
+        }
+
+        const validChil = fam.chil.filter(c => indisMap.has(c));
+        if (validChil.length > 0) {
+          if (expandedFams.has(fid)) {
+            const ownerId = expandedFams.get(fid);
+            const ownerName = indisMap.get(ownerId)?.name || 'another branch';
+            coupleParts.push(`<div class="note">Children are listed under ${escapeHtml(ownerName)}</div>`);
+          } else {
+            expandedFams.set(fid, iid);
+            kidsToRender.push(...validChil);
+          }
+        }
+      }
+
+      const coupleHtml = `<div class="couple">${coupleParts.join('')}</div>`;
+      if (kidsToRender.length > 0) {
+        const togHtml = `<button class="tog" data-act="tog" data-id="${escapeHtml(iid)}" aria-expanded="true" aria-label="Hide descendants of ${escapeHtml(p.name)}">−</button>`;
+        const unitHtml = `<div class="unit">${coupleHtml}${togHtml}</div>`;
+        const kidsHtml = `<ul class="kids">${kidsToRender.map(cid => renderNode(cid, depth + 1)).join('')}</ul>`;
+        return `<li class="node" data-node="${escapeHtml(iid)}">${unitHtml}${kidsHtml}</li>`;
+      } else {
+        const unitHtml = `<div class="unit">${coupleHtml}</div>`;
+        return `<li class="node" data-node="${escapeHtml(iid)}">${unitHtml}</li>`;
+      }
+    }
+
+    const treeHtml = `<ul class="roots">${rootIds.map(rid => renderNode(rid, 1)).join('')}</ul>`;
+    return {
+      treeHtml,
+      peopleCount: indisMap.size,
+      familyCount: famsMap.size,
+      generations: maxGenDepth
+    };
+  }
+
+  function loadGedcomAndRender(rawGedText, sourceLabel = '') {
+    gedcomText = rawGedText.trim();
+    const parsed = parseGedcom(gedcomText);
+    indis = parsed.indis;
+    fams = parsed.fams;
+
+    const { treeHtml, peopleCount, familyCount, generations } = buildTreeFromGedcom(indis, fams);
+    treeEl.innerHTML = treeHtml;
+    statsEl.textContent = `${peopleCount} people · ${familyCount} families · ${generations} generations`;
+
+    selectedId = null;
+    searchInput.value = '';
+    countEl.textContent = '';
+    renderIdlePanel();
+
+    if (sourceLabel) {
+      showNotice(`Loaded ${sourceLabel} (${peopleCount} people, ${familyCount} families).`);
+    }
+  }
+
+  function showNotice(msg) {
+    noticeEl.innerHTML = `<span>${escapeHtml(msg)}</span><button class="btn" data-act="dismiss-notice" style="padding:2px 8px;font-size:0.75rem">Dismiss</button>`;
+    noticeEl.hidden = false;
+  }
+
+  // Try fetching an external .ged file from the repo so updates on GitHub only require replacing the .ged file
+  async function tryLoadExternalGedcom() {
+    if (window.location.protocol === 'file:') return;
+    for (const filename of EXTERNAL_GED_FILES) {
+      try {
+        const res = await fetch(`${filename}?v=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.includes('0 HEAD') && text.includes('INDI')) {
+            loadGedcomAndRender(text);
+            return;
+          }
+        }
+      } catch (_) {
+        // Ignore fetch errors and continue to fallback
+      }
+    }
+  }
+
   function getBranchCount(nodeLi) {
     const kidsUl = nodeLi.querySelector(':scope > ul.kids');
     if (!kidsUl) return 0;
@@ -2009,7 +2413,7 @@
     panelEl.innerHTML = `
       <h2>Family details</h2>
       <p class="guide">Select anyone in the tree to see their parents, spouses, children and siblings.</p>
-      <p class="guide"><b>View-only mode:</b> Use the search bar to locate relatives, tap <b>−</b> or <b>+number</b> badges to fold or open family branches, or export a copy of the GEDCOM file above.</p>
+      <p class="guide"><b>Updating the tree:</b> Upload a <code>family.ged</code> file to your GitHub repo (or paste new GEDCOM text into <code>index.html</code>), or use <b>Load .ged</b> above to preview a file immediately.</p>
       <div class="legend">
         <span><i style="background:var(--male)"></i>Male</span>
         <span><i style="background:var(--female)"></i>Female</span>
@@ -2028,21 +2432,13 @@
     const aria = p.dead ? `${p.name}, deceased` : p.name;
     return `
       <div class="rel-item">
-        <button class="card ${sexClass}${deadClass}" data-act="pick" data-id="${p.id}" aria-label="${escapeHtml(aria)}">
+        <button class="card ${sexClass}${deadClass}" data-act="pick" data-id="${escapeHtml(p.id)}" aria-label="${escapeHtml(aria)}">
           <span class="dot"></span>
           <span class="nm">${escapeHtml(p.name)}${dagHTML}</span>
           ${subNote ? `<span class="rel-sub">${escapeHtml(subNote)}</span>` : ''}
         </button>
       </div>
     `;
-  }
-
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
   }
 
   function renderPersonPanel(id) {
@@ -2091,7 +2487,6 @@
     // Siblings (full & half)
     const siblings = [];
     const seenSibs = new Set([p.id]);
-    // Full siblings from same FAMC
     for (const fid of p.famc) {
       const fam = fams.get(fid);
       if (!fam) continue;
@@ -2102,7 +2497,6 @@
         }
       }
     }
-    // Half-siblings from parents' other families
     for (const par of parents) {
       const parObj = indis.get(par.id);
       if (!parObj) continue;
@@ -2132,7 +2526,6 @@
       metaRows.push(`<div><dt>Status</dt><dd>Living</dd></div>`);
     }
 
-    // Check if person appears multiple times in the tree
     const treeCards = treeEl.querySelectorAll(`button.card[data-id="${CSS.escape(p.id)}"]`);
 
     panelEl.innerHTML = `
@@ -2152,7 +2545,7 @@
       </dl>
 
       ${treeCards.length > 1 ? `
-        <button class="btn" data-act="cycle-loc" data-id="${p.id}" style="width:100%">
+        <button class="btn" data-act="cycle-loc" data-id="${escapeHtml(p.id)}" style="width:100%">
           ↗ Jump between ${treeCards.length} locations in tree
         </button>
       ` : ''}
@@ -2198,8 +2591,6 @@
     }
   }
 
-  let locCycleIdx = 0;
-
   function selectPerson(id, { scroll = true, cycle = false } = {}) {
     selectedId = id;
     treeEl.querySelectorAll('button.card.selected').forEach(btn => btn.classList.remove('selected'));
@@ -2216,7 +2607,6 @@
       if (cycle) {
         locCycleIdx = (locCycleIdx + 1) % cards.length;
       } else {
-        // Prefer primary card (non-ref) first
         const primaryIdx = cards.findIndex(c => !c.classList.contains('ref'));
         locCycleIdx = primaryIdx >= 0 ? primaryIdx : 0;
       }
@@ -2230,27 +2620,84 @@
     renderPersonPanel(id);
   }
 
-  // Zoom Helper
   function setZoom(newZoom) {
     zoom = Math.min(1.6, Math.max(0.5, Math.round(newZoom * 10) / 10));
     document.documentElement.style.setProperty('--zoom', zoom);
   }
 
-  // Export GEDCOM Helper
   function exportGedcom() {
     const blob = new Blob([gedcomText + '\n'], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'my-family-tree.ged';
+    a.download = 'family.ged';
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  // Event delegation for clicks
-  document.getElementById('app').addEventListener('click', (e) => {
+  function handleGedFileObject(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = String(reader.result || '');
+      if (!text.includes('INDI')) {
+        showNotice('That file does not appear to be a valid GEDCOM (.ged) file.');
+        return;
+      }
+      loadGedcomAndRender(text, file.name);
+    };
+    reader.readAsText(file);
+  }
+
+  function unlockApp() {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    lockscreenEl.hidden = true;
+    appEl.hidden = false;
+    lockErrEl.hidden = true;
+    pwInputEl.value = '';
+
+    if (!isInitialized) {
+      isInitialized = true;
+      loadGedcomAndRender(gedcomText);
+      tryLoadExternalGedcom();
+    }
+  }
+
+  function lockApp() {
+    sessionStorage.removeItem(SESSION_KEY);
+    appEl.hidden = true;
+    lockscreenEl.hidden = false;
+    pwInputEl.value = '';
+    setTimeout(() => pwInputEl.focus(), 50);
+  }
+
+  // Password form events
+  pwToggleEl.addEventListener('click', () => {
+    const isPw = pwInputEl.type === 'password';
+    pwInputEl.type = isPw ? 'text' : 'password';
+    pwToggleEl.textContent = isPw ? 'Hide' : 'Show';
+    pwToggleEl.setAttribute('aria-label', isPw ? 'Hide password' : 'Show password');
+    pwInputEl.focus();
+  });
+
+  lockFormEl.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ok = await verifyPassword(pwInputEl.value);
+    if (ok) {
+      unlockApp();
+    } else {
+      lockErrEl.hidden = false;
+      lockCardEl.classList.remove('shake');
+      void lockCardEl.offsetWidth;
+      lockCardEl.classList.add('shake');
+      pwInputEl.select();
+    }
+  });
+
+  // Main app click actions
+  appEl.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-act]');
     if (!btn) return;
     const act = btn.getAttribute('data-act');
@@ -2289,9 +2736,40 @@
       setZoom(zoom + 0.1);
     } else if (act === 'zout') {
       setZoom(zoom - 0.1);
+    } else if (act === 'import') {
+      fileInputEl.click();
     } else if (act === 'export') {
       exportGedcom();
+    } else if (act === 'lock') {
+      lockApp();
+    } else if (act === 'dismiss-notice') {
+      noticeEl.hidden = true;
     }
+  });
+
+  fileInputEl.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) handleGedFileObject(file);
+    fileInputEl.value = '';
+  });
+
+  // Drag and drop a .ged file anywhere on #app
+  appEl.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    appEl.classList.add('dragover');
+  });
+
+  appEl.addEventListener('dragleave', (e) => {
+    if (!appEl.contains(e.relatedTarget)) {
+      appEl.classList.remove('dragover');
+    }
+  });
+
+  appEl.addEventListener('drop', (e) => {
+    e.preventDefault();
+    appEl.classList.remove('dragover');
+    const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) handleGedFileObject(file);
   });
 
   // Search handling
@@ -2380,8 +2858,10 @@
     treewrap.classList.remove('panning');
   });
 
-  // Initialize panel
-  renderIdlePanel();
+  // Auto-unlock if already authenticated in the current browser tab session
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    unlockApp();
+  }
 })();
 </script>
 </body>
