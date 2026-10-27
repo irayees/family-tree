@@ -59,9 +59,9 @@
 1 FAMS @F6@
 1 FAMC @F1@
 0 @I8@ INDI
-1 NAME Shakeela /Sait/
+1 NAME Shakeela /Bai/
 2 GIVN Shakeela
-2 SURN Sait
+2 SURN Bai
 1 SEX F
 1 FAMS @F7@
 1 FAMC @F1@
@@ -177,6 +177,7 @@
 2 GIVN Iqbal
 2 SURN Zackaria
 1 SEX M
+1 DEAT Y
 1 FAMS @F7@
 0 @I26@ INDI
 1 NAME Noorjahan /Bai/
@@ -388,6 +389,8 @@
 2 GIVN Basheer
 2 SURN Ahmed
 1 SEX M
+1 BIRT
+2 DATE 1972
 1 FAMS @F33@
 1 FAMC @F4@
 0 @I57@ INDI
@@ -456,12 +459,14 @@
 2 GIVN Zeeshan
 2 SURN Sait
 1 SEX M
+1 FAMS @Fnmvr0mgptzz@
 1 FAMC @F23@
 0 @I67@ INDI
 1 NAME Adil /Sait/
 2 GIVN Adil
 2 SURN Sait
 1 SEX M
+1 FAMS @Fnmvr0n5jz46@
 1 FAMC @F23@
 0 @I68@ INDI
 1 NAME Saju /Sait/
@@ -470,16 +475,18 @@
 1 SEX M
 1 FAMS @F24@
 0 @I69@ INDI
-1 NAME Farisa /Bai/
-2 GIVN Farisa
+1 NAME Fariza /Bai/
+2 GIVN Fariza
 2 SURN Bai
 1 SEX F
+1 FAMS @Fnmvr0qgq9t8@
 1 FAMC @F24@
 0 @I70@ INDI
-1 NAME Favas /Sait/
-2 GIVN Favas
+1 NAME Farhaz /Sait/
+2 GIVN Farhaz
 2 SURN Sait
 1 SEX M
+1 FAMS @Fnmvr0nuwue2@
 1 FAMC @F24@
 0 @I71@ INDI
 1 NAME Shakoor /Sait/
@@ -501,16 +508,19 @@
 1 SEX F
 1 FAMS @F26@
 0 @I74@ INDI
-1 NAME Nizaara /Bai/
-2 GIVN Nizaara
+1 NAME Nizara /Bai/
+2 GIVN Nizara
 2 SURN Bai
 1 SEX F
+1 FAMS @Fnmvr0ss53ua@
 1 FAMC @F26@
 0 @I75@ INDI
 1 NAME Aqif /Sait/
 2 GIVN Aqif
 2 SURN Sait
 1 SEX M
+1 BIRT
+2 DATE 1998
 1 FAMC @F26@
 0 @I76@ INDI
 1 NAME Nisthar /Sait/
@@ -523,18 +533,21 @@
 2 GIVN Noufal
 2 SURN Sait
 1 SEX M
+1 FAMS @Fnmvr0wowocm@
 1 FAMC @F27@
 0 @I78@ INDI
 1 NAME Nihal /Sait/
 2 GIVN Nihal
 2 SURN Sait
 1 SEX M
+1 FAMS @Fnmvr10q6zan@
 1 FAMC @F27@
 0 @I79@ INDI
-1 NAME Jan /Muhammad/
+1 NAME Jan /Mohammad/
 2 GIVN Jan
-2 SURN Muhammad
+2 SURN Mohammad
 1 SEX M
+1 FAMS @Fnmvr123h7dz@
 1 FAMC @F27@
 0 @I80@ INDI
 1 NAME Ismail /Sait (Shafiq)/
@@ -547,6 +560,7 @@
 2 GIVN Farah
 2 SURN Bai
 1 SEX F
+1 FAMS @Fnmvr13473wz@
 1 FAMC @F28@
 0 @I82@ INDI
 1 NAME Yaqoob /Ismail/
@@ -560,6 +574,9 @@
 2 GIVN Mohsin
 2 SURN Ismail
 1 SEX M
+1 BIRT
+2 DATE 1997
+1 FAMS @Fnmvr14jdq10@
 1 FAMC @F28@
 0 @I84@ INDI
 1 NAME Shafna //
@@ -745,31 +762,43 @@
 1 NAME Asif //
 2 GIVN Asif
 1 SEX M
+1 BIRT
+2 DATE 1996
+1 FAMS @Fnmvr0d129pv@
 1 FAMC @F32@
 0 @I119@ INDI
-1 NAME Arif (Advocate) //
-2 GIVN Arif (Advocate)
+1 NAME Arif //
+2 GIVN Arif
 1 SEX M
+1 BIRT
+2 DATE 2001
 1 FAMC @F32@
 0 @I120@ INDI
-1 NAME Nusarath //
-2 GIVN Nusarath
+1 NAME Nusrat //
+2 GIVN Nusrat
 1 SEX F
+1 BIRT
+2 DATE 1982
 1 FAMS @F33@
 0 @I121@ INDI
 1 NAME Yasmeen //
 2 GIVN Yasmeen
 1 SEX F
+1 FAMS @Fnmvr0egwrmw@
 1 FAMC @F33@
 0 @I122@ INDI
-1 NAME Ruksana //
-2 GIVN Ruksana
+1 NAME Fatima (Ruksar) //
+2 GIVN Fatima (Ruksar)
 1 SEX F
+1 BIRT
+2 DATE 2003
 1 FAMC @F33@
 0 @I123@ INDI
-1 NAME Rehab //
-2 GIVN Rehab
-1 SEX F
+1 NAME Rehan //
+2 GIVN Rehan
+1 SEX M
+1 BIRT
+2 DATE 2007
 1 FAMC @F33@
 0 @I124@ INDI
 1 NAME Safa //
@@ -860,13 +889,6 @@
 2 DATE 2005
 1 FAMS @Fnmvq5amg1sq@
 1 FAMC @Fnmvq59szgs5@
-0 @Inmvq5aya3qv@ INDI
-1 NAME Asma /Mohamed Nazish/
-2 GIVN Asma
-2 SURN Mohamed Nazish
-1 SEX F
-1 BIRT
-2 DATE 2008
 0 @Inmvq5d5ko1q@ INDI
 1 NAME Noorah /Mohamed Zaheer/
 2 GIVN Noorah
@@ -891,6 +913,224 @@
 1 BIRT
 2 DATE 2008
 1 FAMC @Fnmvq59szgs5@
+0 @Inmvqq3rrj2p@ INDI
+1 NAME Aiza //
+2 GIVN Aiza
+1 SEX F
+1 FAMC @F38@
+0 @Inmvqq55p948@ INDI
+1 NAME Saniya //
+2 GIVN Saniya
+1 SEX F
+1 FAMC @F15@
+0 @Inmvqq68dd3e@ INDI
+1 NAME Saliha //
+2 GIVN Saliha
+1 SEX F
+1 FAMS @Fnmvqq6jqdg6@
+1 FAMC @F16@
+0 @Inmvqq912nx9@ INDI
+1 NAME Nahal //
+2 GIVN Nahal
+1 SEX M
+1 FAMC @F16@
+0 @Inmvqqa64b2c@ INDI
+1 NAME Nahiya //
+2 GIVN Nahiya
+1 SEX F
+1 FAMC @F16@
+0 @Inmvqrob7y7o@ INDI
+1 NAME Aadheen //
+2 GIVN Aadheen
+1 SEX M
+1 FAMC @F36@
+0 @Inmvqrpu7apc@ INDI
+1 NAME Suhana //
+2 GIVN Suhana
+1 SEX F
+1 FAMC @F36@
+0 @Inmvr0d1299p@ INDI
+1 NAME Sahla //
+2 GIVN Sahla
+1 SEX F
+1 BIRT
+2 DATE 2000
+1 FAMS @Fnmvr0d129pv@
+0 @Inmvr0dgui7j@ INDI
+1 NAME Zara /Asif/
+2 GIVN Zara
+2 SURN Asif
+1 SEX F
+1 BIRT
+2 DATE 2024
+1 FAMC @Fnmvr0d129pv@
+0 @Inmvr0egwrs8@ INDI
+1 NAME Shiyaz /Mohammed/
+2 GIVN Shiyaz
+2 SURN Mohammed
+1 SEX M
+1 BIRT
+2 DATE 1998
+1 FAMS @Fnmvr0egwrmw@
+0 @Inmvr0mgpt3e@ INDI
+1 NAME Sumayya //
+2 GIVN Sumayya
+1 FAMS @Fnmvr0mgptzz@
+0 @Inmvr0msld8m@ INDI
+1 NAME Mohammed Haaziq //
+2 GIVN Mohammed Haaziq
+1 FAMC @Fnmvr0mgptzz@
+0 @Inmvr0n5jz8x@ INDI
+1 NAME Amreen /Rashik/
+2 GIVN Amreen
+2 SURN Rashik
+1 FAMS @Fnmvr0n5jz46@
+0 @Inmvr0na6xgb@ INDI
+1 NAME Yahya //
+2 GIVN Yahya
+1 FAMC @Fnmvr0n5jz46@
+0 @Inmvr0nuwuby@ INDI
+1 NAME Anjala /Zulfikar/
+2 GIVN Anjala
+2 SURN Zulfikar
+1 SEX F
+1 BIRT
+2 DATE 1996
+1 FAMS @Fnmvr0nuwue2@
+0 @Inmvr0occ7od@ INDI
+1 NAME Numaym /Sait/
+2 GIVN Numaym
+2 SURN Sait
+1 SEX M
+1 BIRT
+2 DATE 2020
+1 FAMC @Fnmvr0nuwue2@
+0 @Inmvr0ousty0@ INDI
+1 NAME Numaira //
+2 GIVN Numaira
+1 SEX F
+1 BIRT
+2 DATE 2025
+1 FAMC @Fnmvr0nuwue2@
+0 @Inmvr0pd4y7g@ INDI
+1 NAME Mohammed Umar //
+2 GIVN Mohammed Umar
+1 SEX M
+1 FAMC @F39@
+0 @Inmvr0prhnxf@ INDI
+1 NAME Zainab //
+2 GIVN Zainab
+1 SEX F
+1 FAMC @F39@
+0 @Inmvr0qgq95l@ INDI
+1 NAME Zameer //
+2 GIVN Zameer
+1 SEX M
+1 FAMS @Fnmvr0qgq9t8@
+0 @Inmvr0qsjjty@ INDI
+1 NAME Muskaan //
+2 GIVN Muskaan
+1 SEX F
+1 FAMC @Fnmvr0qgq9t8@
+0 @Inmvr0r8ll3u@ INDI
+1 NAME Adam //
+2 GIVN Adam
+1 SEX M
+1 FAMC @Fnmvr0qgq9t8@
+0 @Inmvr0riammm@ INDI
+1 NAME Zain //
+2 GIVN Zain
+1 SEX M
+1 FAMC @Fnmvr0qgq9t8@
+0 @Inmvr0ss53tp@ INDI
+1 NAME Nihal /Sait/
+2 GIVN Nihal
+2 SURN Sait
+1 SEX M
+1 FAMS @Fnmvr0ss53ua@
+0 @Inmvr0vx6mms@ INDI
+1 NAME Izaan //
+2 GIVN Izaan
+1 SEX M
+1 FAMC @Fnmvr0ss53ua@
+0 @Inmvr0wowodn@ INDI
+1 NAME Farzana /Bai/
+2 GIVN Farzana
+2 SURN Bai
+1 SEX F
+1 FAMS @Fnmvr0wowocm@
+1 FAMS @Fnmvr10010cp@
+0 @Inmvr0xn8oh7@ INDI
+1 NAME Raiyan /Sait/
+2 GIVN Raiyan
+2 SURN Sait
+1 SEX M
+1 FAMC @Fnmvr0wowocm@
+0 @Inmvr0zgptuy@ INDI
+1 NAME Hammad /Sait/
+2 GIVN Hammad
+2 SURN Sait
+1 SEX M
+1 BIRT
+2 DATE 2022
+1 FAMC @Fnmvr0wowocm@
+0 @Inmvr10q6zj7@ INDI
+1 NAME Nizara /Bai/
+2 GIVN Nizara
+2 SURN Bai
+1 SEX F
+1 FAMS @Fnmvr10q6zan@
+0 @Inmvr10ygc6x@ INDI
+1 NAME Izaan //
+2 GIVN Izaan
+1 SEX M
+1 FAMC @Fnmvr10q6zan@
+0 @Inmvr123h7yy@ INDI
+1 NAME Naeema /Ayoob/
+2 GIVN Naeema
+2 SURN Ayoob
+1 SEX F
+1 BIRT
+2 DATE 2000
+1 FAMS @Fnmvr123h7dz@
+0 @Inmvr12ir5ms@ INDI
+1 NAME Jeza //
+2 GIVN Jeza
+1 SEX F
+1 BIRT
+2 DATE 2023
+1 FAMC @Fnmvr123h7dz@
+0 @Inmvr13473gx@ INDI
+1 NAME Mohammed Nadiq //
+2 GIVN Mohammed Nadiq
+1 SEX M
+1 FAMS @Fnmvr13473wz@
+0 @Inmvr13n0mm0@ INDI
+1 NAME Nafisa //
+2 GIVN Nafisa
+1 SEX F
+1 FAMC @Fnmvr13473wz@
+0 @Inmvr13vrewg@ INDI
+1 NAME Hamza //
+2 GIVN Hamza
+1 SEX M
+1 FAMC @Fnmvr13473wz@
+0 @Inmvr14jdqad@ INDI
+1 NAME Faraha /Bai/
+2 GIVN Faraha
+2 SURN Bai
+1 SEX F
+1 BIRT
+2 DATE 1998
+1 FAMS @Fnmvr14jdq10@
+0 @Inmvr17uz8zv@ INDI
+1 NAME Inaaya /Bai/
+2 GIVN Inaaya
+2 SURN Bai
+1 SEX F
+1 BIRT
+2 DATE 2022
+1 FAMC @Fnmvr0wowocm@
 0 @F1@ FAM
 1 HUSB @I6@
 1 WIFE @I1@
@@ -993,10 +1233,14 @@
 1 HUSB @I28@
 1 WIFE @I96@
 1 CHIL @Inmvq4c6r3cv@
+1 CHIL @Inmvqq55p948@
 1 _CURRENT Y
 0 @F16@ FAM
 1 HUSB @I29@
 1 WIFE @I31@
+1 CHIL @Inmvqq68dd3e@
+1 CHIL @Inmvqq912nx9@
+1 CHIL @Inmvqqa64b2c@
 1 _CURRENT Y
 0 @F17@ FAM
 1 HUSB @I37@
@@ -1119,6 +1363,8 @@
 0 @F36@ FAM
 1 HUSB @I95@
 1 WIFE @I62@
+1 CHIL @Inmvqrob7y7o@
+1 CHIL @Inmvqrpu7apc@
 1 _CURRENT Y
 0 @F37@ FAM
 1 HUSB @I89@
@@ -1131,10 +1377,13 @@
 1 HUSB @I64@
 1 WIFE @I93@
 1 CHIL @I94@
+1 CHIL @Inmvqq3rrj2p@
 1 _CURRENT Y
 0 @F39@ FAM
 1 HUSB @I82@
 1 WIFE @I72@
+1 CHIL @Inmvr0pd4y7g@
+1 CHIL @Inmvr0prhnxf@
 1 _CURRENT Y
 0 @F40@ FAM
 1 HUSB @I127@
@@ -1168,5 +1417,75 @@
 1 _CURRENT Y
 0 @Fnmvq5amg1sq@ FAM
 1 HUSB @Inmvq5a8xy9j@
+1 _CURRENT Y
+0 @Fnmvqq6jqdg6@ FAM
+1 WIFE @Inmvqq68dd3e@
+1 _CURRENT Y
+0 @Fnmvr0d129pv@ FAM
+1 HUSB @I118@
+1 WIFE @Inmvr0d1299p@
+1 CHIL @Inmvr0dgui7j@
+1 _CURRENT Y
+0 @Fnmvr0egwrmw@ FAM
+1 HUSB @Inmvr0egwrs8@
+1 WIFE @I121@
+1 _CURRENT Y
+0 @Fnmvr0mgptzz@ FAM
+1 HUSB @I66@
+1 WIFE @Inmvr0mgpt3e@
+1 CHIL @Inmvr0msld8m@
+1 _CURRENT Y
+0 @Fnmvr0n5jz46@ FAM
+1 HUSB @I67@
+1 WIFE @Inmvr0n5jz8x@
+1 CHIL @Inmvr0na6xgb@
+1 _CURRENT Y
+0 @Fnmvr0nuwue2@ FAM
+1 HUSB @I70@
+1 WIFE @Inmvr0nuwuby@
+1 CHIL @Inmvr0occ7od@
+1 CHIL @Inmvr0ousty0@
+1 _CURRENT Y
+0 @Fnmvr0qgq9t8@ FAM
+1 HUSB @Inmvr0qgq95l@
+1 WIFE @I69@
+1 CHIL @Inmvr0qsjjty@
+1 CHIL @Inmvr0r8ll3u@
+1 CHIL @Inmvr0riammm@
+1 _CURRENT Y
+0 @Fnmvr0ss53ua@ FAM
+1 HUSB @Inmvr0ss53tp@
+1 WIFE @I74@
+1 CHIL @Inmvr0vx6mms@
+1 _CURRENT Y
+0 @Fnmvr0wowocm@ FAM
+1 HUSB @I77@
+1 WIFE @Inmvr0wowodn@
+1 CHIL @Inmvr0xn8oh7@
+1 CHIL @Inmvr0zgptuy@
+1 CHIL @Inmvr17uz8zv@
+1 _CURRENT Y
+0 @Fnmvr10010cp@ FAM
+1 WIFE @Inmvr0wowodn@
+1 _CURRENT Y
+0 @Fnmvr10q6zan@ FAM
+1 HUSB @I78@
+1 WIFE @Inmvr10q6zj7@
+1 CHIL @Inmvr10ygc6x@
+1 _CURRENT Y
+0 @Fnmvr123h7dz@ FAM
+1 HUSB @I79@
+1 WIFE @Inmvr123h7yy@
+1 CHIL @Inmvr12ir5ms@
+1 _CURRENT Y
+0 @Fnmvr13473wz@ FAM
+1 HUSB @Inmvr13473gx@
+1 WIFE @I81@
+1 CHIL @Inmvr13n0mm0@
+1 CHIL @Inmvr13vrewg@
+1 _CURRENT Y
+0 @Fnmvr14jdq10@ FAM
+1 HUSB @I83@
+1 WIFE @Inmvr14jdqad@
 1 _CURRENT Y
 0 TRLR
