@@ -442,8 +442,8 @@
 1 FAMS @F37@
 1 FAMC @F13@
 0 @I64@ INDI
-1 NAME Anees /Sait/
-2 GIVN Anees
+1 NAME Anis /Sait/
+2 GIVN Anis
 2 SURN Sait
 1 SEX M
 1 FAMS @F38@
@@ -606,8 +606,9 @@
 1 SEX M
 1 FAMC @F35@
 0 @I89@ INDI
-1 NAME Nadeem //
+1 NAME Nadeem /Jaffer Sait/
 2 GIVN Nadeem
+2 SURN Jaffer Sait
 1 SEX M
 1 FAMS @F37@
 0 @I90@ INDI
