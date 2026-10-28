@@ -469,9 +469,9 @@
 1 FAMS @Fnmvr0n5jz46@
 1 FAMC @F23@
 0 @I68@ INDI
-1 NAME Saju /Sait/
-2 GIVN Saju
-2 SURN Sait
+1 NAME Mohamed Sajid /Ibrahim Sait/
+2 GIVN Mohamed Sajid
+2 SURN Ibrahim Sait
 1 SEX M
 1 FAMS @F24@
 0 @I69@ INDI
@@ -482,9 +482,9 @@
 1 FAMS @Fnmvr0qgq9t8@
 1 FAMC @F24@
 0 @I70@ INDI
-1 NAME Farhaz /Sait/
+1 NAME Farhaz /Sajid/
 2 GIVN Farhaz
-2 SURN Sait
+2 SURN Sajid
 1 SEX M
 1 FAMS @Fnmvr0nuwue2@
 1 FAMC @F24@
@@ -991,24 +991,25 @@
 2 GIVN Yahya
 1 FAMC @Fnmvr0n5jz46@
 0 @Inmvr0nuwuby@ INDI
-1 NAME Anjala /Zulfikar/
+1 NAME Anjala /Zulfickar/
 2 GIVN Anjala
-2 SURN Zulfikar
+2 SURN Zulfickar
 1 SEX F
 1 BIRT
 2 DATE 1996
 1 FAMS @Fnmvr0nuwue2@
 0 @Inmvr0occ7od@ INDI
-1 NAME Numaym /Sait/
-2 GIVN Numaym
+1 NAME Nuaym Farhaz /Sait/
+2 GIVN Nuaym Farhaz
 2 SURN Sait
 1 SEX M
 1 BIRT
 2 DATE 2020
 1 FAMC @Fnmvr0nuwue2@
 0 @Inmvr0ousty0@ INDI
-1 NAME Numaira //
-2 GIVN Numaira
+1 NAME Numaira Farhaz /Sait/
+2 GIVN Numaira Farhaz
+2 SURN Sait
 1 SEX F
 1 BIRT
 2 DATE 2025
@@ -1029,8 +1030,9 @@
 1 SEX M
 1 FAMS @Fnmvr0qgq9t8@
 0 @Inmvr0qsjjty@ INDI
-1 NAME Muskaan //
-2 GIVN Muskaan
+1 NAME Khadeeja (Muskaan) /Bai/
+2 GIVN Khadeeja (Muskaan)
+2 SURN Bai
 1 SEX F
 1 FAMC @Fnmvr0qgq9t8@
 0 @Inmvr0r8ll3u@ INDI
