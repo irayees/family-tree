@@ -584,15 +584,15 @@
 1 SEX F
 1 FAMS @F34@
 0 @I85@ INDI
-1 NAME Ishan /Zayed/
+1 NAME Ishan /Zayd/
 2 GIVN Ishan
-2 SURN Zayed
+2 SURN Zayd
 1 SEX M
 1 FAMC @F34@
 0 @I86@ INDI
-1 NAME Zinan /Zayed/
+1 NAME Zinan /Zayd/
 2 GIVN Zinan
-2 SURN Zayed
+2 SURN Zayd
 1 SEX M
 1 FAMC @F34@
 0 @I87@ INDI
@@ -1131,6 +1131,17 @@
 1 BIRT
 2 DATE 2022
 1 FAMC @Fnmvr0wowocm@
+0 @Inmvrmmdbt9n@ INDI
+1 NAME Aizan /Zayd/
+2 GIVN Aizan
+2 SURN Zayd
+1 SEX M
+1 FAMC @F34@
+0 @Inmvrmo1q8ux@ INDI
+1 NAME Zara //
+2 GIVN Zara
+1 SEX F
+1 FAMC @F35@
 0 @F1@ FAM
 1 HUSB @I6@
 1 WIFE @I1@
@@ -1354,11 +1365,13 @@
 1 WIFE @I84@
 1 CHIL @I85@
 1 CHIL @I86@
+1 CHIL @Inmvrmmdbt9n@
 1 _CURRENT Y
 0 @F35@ FAM
 1 HUSB @I61@
 1 WIFE @I87@
 1 CHIL @I88@
+1 CHIL @Inmvrmo1q8ux@
 1 _CURRENT Y
 0 @F36@ FAM
 1 HUSB @I95@
