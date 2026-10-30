@@ -726,6 +726,7 @@
 2 GIVN Hiba
 2 SURN Qureshi
 1 SEX F
+1 FAMS @Fnmvtpecurgg@
 1 FAMC @F30@
 0 @I112@ INDI
 1 NAME Sara /Qureshi/
@@ -1145,6 +1146,20 @@
 2 GIVN Zara
 1 SEX F
 1 FAMC @F35@
+0 @Inmvtpecurk9@ INDI
+1 NAME Ali Ahmed /Khan/
+2 GIVN Ali Ahmed
+2 SURN Khan
+1 SEX M
+1 FAMS @Fnmvtpecurgg@
+0 @Inmvtpergof0@ INDI
+1 NAME Isa Ahmed /Khan/
+2 GIVN Isa Ahmed
+2 SURN Khan
+1 SEX M
+1 BIRT
+2 DATE 2 October 2026
+1 FAMC @Fnmvtpecurgg@
 0 @F1@ FAM
 1 HUSB @I6@
 1 WIFE @I1@
@@ -1503,5 +1518,10 @@
 0 @Fnmvr14jdq10@ FAM
 1 HUSB @I83@
 1 WIFE @Inmvr14jdqad@
+1 _CURRENT Y
+0 @Fnmvtpecurgg@ FAM
+1 HUSB @Inmvtpecurk9@
+1 WIFE @I111@
+1 CHIL @Inmvtpergof0@
 1 _CURRENT Y
 0 TRLR
