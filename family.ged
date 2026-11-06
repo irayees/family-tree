@@ -709,6 +709,8 @@
 2 GIVN Ahmed
 1 SEX M
 1 DEAT Y
+1 FAMS @Fnmvx1zp7p3m@
+1 FAMS @Fnmvx26nska7@
 1 FAMC @F29@
 0 @I109@ INDI
 1 NAME Ahamed //
@@ -720,6 +722,7 @@
 2 GIVN Inam
 2 SURN Qureshi
 1 SEX M
+1 FAMS @Fnmvx1vol11d@
 1 FAMC @F30@
 0 @I111@ INDI
 1 NAME Hiba /Qureshi/
@@ -729,14 +732,14 @@
 1 FAMS @Fnmvtpecurgg@
 1 FAMC @F30@
 0 @I112@ INDI
-1 NAME Sara /Qureshi/
-2 GIVN Sara
+1 NAME Sarah /Qureshi/
+2 GIVN Sarah
 2 SURN Qureshi
 1 SEX F
 1 FAMC @F30@
 0 @I113@ INDI
-1 NAME Obeid //
-2 GIVN Obeid
+1 NAME Obaid //
+2 GIVN Obaid
 1 SEX M
 1 FAMS @F31@
 0 @I114@ INDI
@@ -745,14 +748,16 @@
 1 SEX M
 1 FAMC @F31@
 0 @I115@ INDI
-1 NAME Emaan //
-2 GIVN Emaan
+1 NAME Eman //
+2 GIVN Eman
 1 SEX F
+1 FAMS @Fnmvx1y1aeto@
 1 FAMC @F31@
 0 @I116@ INDI
 1 NAME Ahmed //
 2 GIVN Ahmed
 1 SEX M
+1 FAMS @Fnmvxx9qm8dh@
 1 FAMC @F31@
 0 @I117@ INDI
 1 NAME Shireen //
@@ -1160,6 +1165,55 @@
 1 BIRT
 2 DATE 2 October 2026
 1 FAMC @Fnmvtpecurgg@
+0 @Inmvx1vol1n1@ INDI
+1 NAME Tara //
+2 GIVN Tara
+1 SEX F
+1 FAMS @Fnmvx1vol11d@
+0 @Inmvx1vwuvuv@ INDI
+1 NAME Isla //
+2 GIVN Isla
+1 SEX F
+1 FAMC @Fnmvx1vol11d@
+0 @Inmvx1y1aewb@ INDI
+1 NAME Adnan //
+2 GIVN Adnan
+1 SEX M
+1 FAMS @Fnmvx1y1aeto@
+0 @Inmvx1zp7pej@ INDI
+1 NAME Abdullah //
+2 GIVN Abdullah
+1 SEX M
+1 FAMC @Fnmvx1zp7p3m@
+0 @Inmvx26nskx@ INDI
+1 NAME Sofia //
+2 GIVN Sofia
+1 SEX F
+1 FAMS @Fnmvx26nska7@
+0 @Inmvxx9qm7ix@ INDI
+1 NAME Aisha //
+2 GIVN Aisha
+1 SEX F
+1 FAMS @Fnmvxx9qm8dh@
+0 @Inmvxxa4nre0@ INDI
+1 NAME Obaid Ahmed /Obaid/
+2 GIVN Obaid Ahmed
+2 SURN Obaid
+1 SEX M
+1 FAMS @Fnmvxxaer750@
+1 FAMC @Fnmvxx9qm8dh@
+0 @Inmvxxb69gq6@ INDI
+1 NAME Khalid Ahmed /Obaid/
+2 GIVN Khalid Ahmed
+2 SURN Obaid
+1 SEX M
+1 FAMC @Fnmvxx9qm8dh@
+0 @Inmvxxbo6us3@ INDI
+1 NAME Mariam Ahmed /Obaid/
+2 GIVN Mariam Ahmed
+2 SURN Obaid
+1 SEX F
+1 FAMC @Fnmvxx9qm8dh@
 0 @F1@ FAM
 1 HUSB @I6@
 1 WIFE @I1@
@@ -1523,5 +1577,32 @@
 1 HUSB @Inmvtpecurk9@
 1 WIFE @I111@
 1 CHIL @Inmvtpergof0@
+1 _CURRENT Y
+0 @Fnmvx1vol11d@ FAM
+1 HUSB @I110@
+1 WIFE @Inmvx1vol1n1@
+1 CHIL @Inmvx1vwuvuv@
+1 _CURRENT Y
+0 @Fnmvx1y1aeto@ FAM
+1 HUSB @Inmvx1y1aewb@
+1 WIFE @I115@
+1 _CURRENT Y
+0 @Fnmvx1zp7p3m@ FAM
+1 HUSB @I108@
+1 CHIL @Inmvx1zp7pej@
+1 _CURRENT Y
+0 @Fnmvx26nska7@ FAM
+1 HUSB @I108@
+1 WIFE @Inmvx26nskx@
+1 _CURRENT Y
+0 @Fnmvxx9qm8dh@ FAM
+1 HUSB @I116@
+1 WIFE @Inmvxx9qm7ix@
+1 CHIL @Inmvxxa4nre0@
+1 CHIL @Inmvxxb69gq6@
+1 CHIL @Inmvxxbo6us3@
+1 _CURRENT Y
+0 @Fnmvxxaer750@ FAM
+1 HUSB @Inmvxxa4nre0@
 1 _CURRENT Y
 0 TRLR
