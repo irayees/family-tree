@@ -3066,7 +3066,7 @@
 
       const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_GED_PATH}`;
       const headers = {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `token ${token}`,
         'Accept': 'application/vnd.github+json',
         'Content-Type': 'application/json'
       };
@@ -3599,7 +3599,7 @@
         const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_GED_PATH}?ref=${GITHUB_BRANCH}&t=${Date.now()}`;
         const res = await fetch(apiUrl, {
           headers: {
-            'Authorization': `Bearer ${window.__FT_GH_PAT__.trim()}`,
+            'Authorization': `token ${window.__FT_GH_PAT__.trim()}`,
             'Accept': 'application/vnd.github.raw+json'
           }
         });
